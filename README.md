@@ -206,3 +206,11 @@ goto M;
 ```
 ##VERIFICATION OF C CODE:
 
+```bash
+gcc cla.c -o cla -lm
+./cla
+```
+
+![cla_op_1](https://github.com/user-attachments/assets/3fa67de7-b30c-46a5-b6cc-438d57019e12)
+
+
