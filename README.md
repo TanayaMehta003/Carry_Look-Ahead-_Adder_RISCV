@@ -67,3 +67,142 @@ C_{2} = G_{1} + P_{1} C_{1} = G_{1} + P_{1} G_{0} + P_{1} P_{0} C_{in} \newline
 C_{3} = G_{2} + P_{2} C_{2} = G_{2} + P_{2} G_{1} + P_{2} P_{1} G_{0} + P_{2} P_{1} P_{0} C_{in} \newline 
 C_{4} = G_{3} + P_{3} C_{3} = G_{3} + P_{3} G_{2} + P_{3} P_{2} G_{1} + P_{3} P_{2} P_{1} G_{0} + P_{3} P_{2} P_{1} P_{0} C_{in}
 \]
+
+##C-CODE
+
+ ```bash
+#include< stdio.h>
+#include< conio.h>
+#include< process.h>
+#include< math.h>
+
+int get1(int a)
+{
+char ch='B';
+if(a==1)
+ch='A';
+do
+{
+printf("\n\tENTER VALUE OF %c:",ch);
+scanf("%d",&a);
+if(a< =0)
+printf("\n\t\t!INVALID NUMBER.ENTER VALUE (0< A)!");
+}while(a< =0);
+return(a);
+}
+
+int and(int a,int b)
+{
+int c;
+if(a< b)
+c=a;
+else
+c=b;
+return (c);
+}
+
+int or(int a,int b)
+{
+int x;
+if(a>b)
+x=a;
+else
+x=b;
+return x;
+}
+
+int exor(int a,int b)
+{
+int x;
+if(a==b)
+x=0;
+else
+x=1;
+return x;
+}
+
+
+void add()
+{
+int i=7,A,B,a,b,cin,num;
+int n1[8],n2[8],cg[8],cp[8],sum[8];
+for(i=0;i< =7;i++)
+{
+n1[i]=0; // Num 1
+n2[i]=0; // Num 2
+cg[i]=0; // Gi
+cp[i]=0; // Pi
+sum[i]=0; // Sum
+}
+A = a = get1(1);
+B = b = get1(0);
+i=7;
+do
+{
+n1[i]=a%2;
+a=a/2;
+n2[i]=b%2;
+b=b/2;
+i--;
+}while((a!=0)||(b!=0));
+i=0;
+printf("\n\t\t Binary Form",A);
+printf("\n\t A = %d : ",A);
+for(i=0;i< =7;i++)
+printf("%d ",n1[i]);
+printf("\n\t B = %d : ",B);
+for(i=0;i< =7;i++)
+printf("%d ",n2[i]);
+cin=0;
+for(i=7;i>=0;i--)
+{
+sum[i]=exor(cin,exor(n1[i],n2[i])); // Sum Pi (+) Bi
+cg[i]=and(n1[i],n2[i]); // Gi = Ai . Bi
+cp[i]=or(n1[i],n2[i]); // Pi = Ai (+) Bi
+cin=or(cg[i],and(cp[i],cin)); // Cin =Gi + PiCi
+}
+printf("\n\n\t\t SUM: ");
+num=0;
+for(i=0;i< =7;i++)
+{
+printf(" %d",sum[i]);
+num=num + (sum[i]*pow(2,7-i));
+}
+printf("\n\n\t\t SUM: %d + %d= %d\n",A,B,num);
+printf("\t\t The Carry Is : %d\n\n",cin);
+}
+
+void main()
+{
+int ch,a,b,c,d;
+clrscr();
+while(1)
+{
+M: printf("******** MENU FOR LOOK AHEAD CARRY ADDER ********");
+printf("\n\t\t1.ADDITION OF TWO NUMBER");
+printf("\n\t\t2.EXIT\n");
+printf("*************************************************");
+printf("\n\t\tEnter Your Option:");
+scanf("%d",&ch);
+switch(ch)
+{
+case 1:
+add();
+getch();
+break;
+
+case 2: exit(0);
+break;
+
+default:
+clrscr();
+printf("ERROR!!!!!!!!! INVALID ENTRY...\n");
+printf("Back To Main Menu\n\n");
+goto M;
+}
+}
+}
+
+```
+##VERIFICATION OF C CODE:
+
