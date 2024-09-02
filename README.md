@@ -1637,3 +1637,9 @@ wire clkP_CPU_rs2_valid_a2 ;
       clk_gate gen_clkP_CPU_rs1_valid_a2(clkP_CPU_rs1_valid_a2, clk, 1'b1, CPU_rs1_valid_a1, 1'b0);
       clk_gate gen_clkP_CPU_rs2_valid_a2(clkP_CPU_rs2_valid_a2, clk, 1'b1, CPU_rs2_valid_a1, 1'b0);
 ```
+```
+$ sudo apt install make python python3 python3-pip git iverilog gtkwave docker.io
+$ sudo chmod 666 /var/run/docker.sock
+$ cd ~
+$ pip3 install pyyaml click sandpiper-saas
+```
