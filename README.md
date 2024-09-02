@@ -1,3 +1,50 @@
+```
+\m5_TLV_version 1d: tl-x.org
+\m5
+   
+   // =================================================
+   // Welcome!  New to Makerchip? Try the "Learn" menu.
+   // =================================================
+   
+   //use(m5-1.0)   /// uncomment to use M5 macro library.
+\SV
+   // Macro providing required top-level module definition, random
+   // stimulus support, and Verilator config.
+   m5_makerchip_module   // (Expanded in Nav-TLV pane.)
+\TLV
+   
+   
+   |calc
+      @1
+         $reset = *reset;
+         $clk_vai = *clk;
+         $val1[31:0] = $rand1[3:0];
+         $val2[31:0] = $rand2[3:0];
+         $sum[31:0] = >>2$f + $val2;
+         $diff[31:0] = >>2$f - $val2;
+         $prod[31:0] = >>2$f * $val2;
+         $quot[31:0] = >>2$f / $val2;
+         
+        
+         
+      @2
+         $valid = $reset ? 1 : (!>>1$valid + 1);
+         $valid_or_reset = ~$valid || $reset;
+         $f[31:0] = $valid_or_reset ? 0 : (($sel[1:0] == 0) ? $sum : ($sel[1:0]==1) ? $diff : ($sel[1:0]==2) ? $prod : $quot);
+         
+   
+  
+   
+   // Assert these to end simulation (before Makerchip cycle limit).
+   *passed = *cyc_cnt > 40;
+   *failed = 1'b0;
+\SV
+   endmodule
+
+```
+
+
+
 # Carry_Look-Ahead-_Adder_RISCV
 
 
