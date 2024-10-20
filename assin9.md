@@ -1,5 +1,3 @@
-![Screenshot from 2024-10-21 01-54-08](https://github.com/user-attachments/assets/9ea26471-1fc2-4eda-800c-809dd2f50a82)# RTL design using Verilog with SKY130 Technology
-
 ## Icarus Verilog-Based Simulation Flow
 
 A simulator is used to validate whether a design aligns with its intended specifications by running simulations on the code. It monitors changes in input signals, and whenever these inputs vary, the corresponding outputs are recalculated. RTL (Register Transfer Level) design refers to the Verilog code that describes the behavior and structure of a digital circuit. To ensure correctness, a testbench is developed to test the design through simulation using Icarus Verilog.
