@@ -1,4 +1,4 @@
-# RTL design using Verilog with SKY130 Technology
+![Screenshot from 2024-10-21 01-54-08](https://github.com/user-attachments/assets/9ea26471-1fc2-4eda-800c-809dd2f50a82)# RTL design using Verilog with SKY130 Technology
 
 ## Icarus Verilog-Based Simulation Flow
 
@@ -8,37 +8,44 @@ During the simulation, a VCD (Value Change Dump) file is generated, which logs s
 
  <details>
 	  <summary>Setup</summary>
-	 Enter the following commands in the Ubuntu terminal 
+	 Enter the below command in the Ubuntu terminal:
 	  
 ```
 sudo -i
 sudo apt-get install git
 ls
-cd /home/gourab
-mkdir VLSI
-cd VLSI
+cd Desktop
+mkdir ASIC
+cd ASIC
 git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
 cd sky130RTLDesignAndSynthesisWorkshop/verilog_files
 ls
 ```
 
-We can observe the list of files present in the directory. 
+We observe the following list of files present in the directory. 
 
-![Screenshot from 2024-10-19 14-43-24](https://github.com/user-attachments/assets/b22d3e89-762e-4390-9841-2cd28ff3aeaf)
+![Screenshot from 2024-10-21 00-30-37](https://github.com/user-attachments/assets/ff904975-c47a-4500-9228-0c8362e08bf9)
 
 </details>
  <details>
-	  <summary>Day 1:</summary>
+	  <summary>DAY 1:</summary>
 		  
-  <li>
-	  Introduction to iverilog and GTKWave: This tutorial involved learning about how to simulate the design and testbench for a 2x1 multiplexer, using iverilog, and displaying the waveform on GTKWave.
-	  
-	
-![Screenshot from 2024-10-19 14-56-59](https://github.com/user-attachments/assets/67bf13c1-5d60-4625-a3c9-c37e06e14dfb)
-   	  
-![Screenshot from 2024-10-19 14-58-00](https://github.com/user-attachments/assets/c198a352-5b68-489b-a601-e30fbbdf9f7b)
 
-  ```
+### Introduction to Icarus Verilog and GTKWave
+
+This tutorial covers the basics of simulating a 2x1 multiplexer design along with its testbench using Icarus Verilog (iverilog). Additionally, it demonstrates how to view the generated waveforms using GTKWave for better analysis and verification of the design.
+
+   Run the following commands
+```
+iverilog good_mux.v tb_good_mux.v
+./a.out
+gtkwave tb_good_mux.vcd
+
+ ```	
+![Screenshot from 2024-10-21 00-51-22](https://github.com/user-attachments/assets/750fc0e4-2cfe-4de2-a4dc-1d004bcddaa6)
+
+  
+ ```
   //Design 
   module good_mux (input i0, input i1, input sel, output reg y);
 	  always@(*)
@@ -69,11 +76,13 @@ We can observe the list of files present in the directory.
 	always #55 i1 = ~i1;
   endmodule
   ```
-  </li>
-  <li>
-	  Introduction to Yosys: This tutorial involved the use of Yosys for synthesising the design we created in Verilog, viewing its netlists and the cells that are generated for the purpose of creating the circuit. The following commands are used:
 
-   ```
+ 
+### Introduction to Yosys:
+
+This tutorial demonstrates how to synthesize a Verilog design using Yosys, explore the generated netlists, and examine the cells used for building the circuit. The following commands were utilized throughout the process:
+
+```
 yosys
 read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 read_verilog good_mux.v
@@ -84,70 +93,36 @@ write_verilog -noattr good_mux_netlist.v
 !gvim good_mux_netlist.v
   ```
 
-1. Opens Yosys Tool
-2. Reads the technology library file (Liberty format) required for synthesis using the specified path.
-3. Loads the Verilog file good_mux.v for synthesis.
-4. Performs synthesis on the design, with good_mux as the top module.
-5. Optimizes the synthesized design using the ABC tool and the specified technology library.
-6. Displays the synthesized design as a schematic.
-7. Writes the synthesized netlist to the file good_mux_netlist.v without attributes.
-8. Opens the netlist file good_mux_netlist.v in the gvim text editor.
+1. Launches the Yosys tool.
+2. Loads the technology library file (in Liberty format) required for synthesis from the designated path.
+3. Imports the Verilog file `good_mux.v` for synthesis purposes.
+4. Executes synthesis on the design, using `good_mux` as the top-level module.
+5. Enhances the synthesized design utilizing the abc tool along with the provided technology library.
+6. Displays the synthesized design in the form of a schematic.
+7. Outputs the synthesized netlist to the file `good_mux_netlist.v`, omitting attributes.
+8. Opens the netlist file `good_mux_netlist.v` in the gvim text editor.
 
-```
-//Generated Netlist
-module good_mux(i0, il, sel, y);
-	wire _0_;
-	wire _1_;
-	wire _2_;
-	wire_3_;
-	input i0; wire i0;
-	input il; wire il;
-	input sel; wire sel;
-	output y; wire y;
-	
-	sky130_fd_sc_hd__mux2_1 _4_ (.AO(_0_),.A1(_1_),.S(_2_),.X(_3_));
-	
-	assign_0_ = 10;
-	assign 1 = il;
-	assign 2 = sel;
-	assign y = _3_;
-endmodule
-```
+![Screenshot from 2024-10-21 01-19-13](https://github.com/user-attachments/assets/9f582f40-1115-419e-82ec-69a9eb27d97e)
 
-![Screenshot from 2024-10-19 15-11-28](https://github.com/user-attachments/assets/c27eb3e6-1444-4c5e-ad1f-ac3a8bde3f47)
+### Netlist generated
 
-![Screenshot from 2024-10-19 15-12-17](https://github.com/user-attachments/assets/9c5b47dd-af15-491c-ac25-51cb8810ebcc)
+![Screenshot from 2024-10-21 01-20-27](https://github.com/user-attachments/assets/c5f94c7b-75c8-4be1-aebb-33c76a1e3864)
 
-![Screenshot from 2024-10-19 15-12-25](https://github.com/user-attachments/assets/f01fab21-40cf-4268-be85-c7ad0eadfac1)
+### Yosys screenshots
 
-![Screenshot from 2024-10-19 15-12-30](https://github.com/user-attachments/assets/6a945dc7-0637-479d-bce6-4a1a34b3fc72)
-
-![Screenshot from 2024-10-19 15-12-39](https://github.com/user-attachments/assets/0a36a047-4090-4bfb-9a39-455f4ac8bd33)
-
-![Screenshot from 2024-10-19 15-12-57](https://github.com/user-attachments/assets/8dd6bc7f-1328-43e5-9d26-b90aa0cdaa95)
-
-![Screenshot from 2024-10-19 15-13-09](https://github.com/user-attachments/assets/816a5c98-7cab-4717-bda8-7846c9d01b08)
-
-![Screenshot from 2024-10-19 15-14-35](https://github.com/user-attachments/assets/7909d585-d794-4345-99e8-6cede3fde17d)
-
-![Screenshot from 2024-10-19 15-17-28](https://github.com/user-attachments/assets/7edf43f9-fc4c-463b-a9f8-984509bb70c3)
-
-![Screenshot from 2024-10-19 15-18-07](https://github.com/user-attachments/assets/e841cb82-7268-4181-b72f-892a875b882d)
-
-![Screenshot from 2024-10-19 16-53-54](https://github.com/user-attachments/assets/baa7d5fd-d72c-4e7e-bdfa-ea8de5454bb5)
-
-![Screenshot from 2024-10-19 16-06-51](https://github.com/user-attachments/assets/f1d2674f-f14f-4f58-ae7f-25b2a056097e)
-
-![Screenshot from 2024-10-19 16-24-46](https://github.com/user-attachments/assets/78d46533-dab0-4882-a153-a9037d20b415)
-  </li>
-  
+![Screenshot from 2024-10-21 01-40-30](https://github.com/user-attachments/assets/adbbd872-5a0a-4b95-81be-65e7d6eb61d3)
+![Screenshot from 2024-10-21 01-44-12](https://github.com/user-attachments/assets/e657c68f-4b36-4b35-aeec-06ade4035573)
+![Screenshot from 2024-10-21 01-44-38](https://github.com/user-attachments/assets/81babc42-afdb-4cba-af14-efc23967fa77)
+![Screenshot from 2024-10-21 01-45-04](https://github.com/user-attachments/assets/b87e8608-76a5-44dd-82b5-1e63551477b7)
+ 
   </details>
 
   <details>
 	  <summary>Day 2:</summary>
   
-<li>
-	   Yosys Synthesis for Multiple Modules: This tutorial involved the synthesis of a design file that has more than one module.
+### Yosys Synthesis for Multiple Modules
+
+This tutorial involves the synthesis of a design file that has more than one module.
 
 ```
 //Design
@@ -173,70 +148,90 @@ endmodule
 3. read_verilog multiple_modules.v
 4. synth -top multiple_modules
 5. abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-6. show
+6. show multiple_modules
 7. write_verilog -noattr multiple_modules_netlist.v
 8. !gvim multiple_modules_netlist.v
 ```
 
-   </li>
-
 ```
 //Generated Netlist
-module multiple_modules (a, b, c, y);
-	input a; wire a;
-	input b; wire b;
-	input c; wire c;
-	wire net1;
-	output y; wire y;
+/* Generated by Yosys 0.23 (git sha1 7ce5011c24b) */
 
-	sub_modulel ul (.a(a),.b(b),.y(net1));
-	sub_module2 u2 (.a(net1),.b(c),.y (y));
+module multiple_modules(a, b, c, y);
+  input a;
+  wire a;
+  input b;
+  wire b;
+  input c;
+  wire c;
+  wire net1;
+  output y;
+  wire y;
+  sub_module1 u1 (
+    .a(a),
+    .b(b),
+    .y(net1)
+  );
+  sub_module2 u2 (
+    .a(net1),
+    .b(c),
+    .y(y)
+  );
 endmodule
 
-module sub_modulel (a, b, y);
-	wire _0_;
-	wire _1_;
-	wire _2_;
-	input a; wire a;
-	input b; wire b;
-	output y; wire y;
-	
-	sky130_fd_sc_hd_and2_0_3_(.A(_1_),.B(_0_),.X(_2_));
-	
-	assign _1_ = b;
-	assign _0_ = a;
-	assign y = _2_;
+module sub_module1(a, b, y);
+  wire _0_;
+  wire _1_;
+  wire _2_;
+  input a;
+  wire a;
+  input b;
+  wire b;
+  output y;
+  wire y;
+  sky130_fd_sc_hd__and2_0 _3_ (
+    .A(_1_),
+    .B(_0_),
+    .X(_2_)
+  );
+  assign _1_ = b;
+  assign _0_ = a;
+  assign y = _2_;
 endmodule
 
-module sub_module2 (a, b, y);
-	wire _0_;
-	wire _1_;
-	wire _2_;
-	input a; wire a;
-	input b; wire b;
-	output y;wire y;
-
-	sky130_fd_sc_hd_or2_0_3_ (A(_1_), .B( 0 ), .X( 2 ));
-	assign _1_ = b;
-	assign _0_ = a;
-	assign y = _2_;
+module sub_module2(a, b, y);
+  wire _0_;
+  wire _1_;
+  wire _2_;
+  input a;
+  wire a;
+  input b;
+  wire b;
+  output y;
+  wire y;
+  sky130_fd_sc_hd__or2_0 _3_ (
+    .A(_1_),
+    .B(_0_),
+    .X(_2_)
+  );
+  assign _1_ = b;
+  assign _0_ = a;
+  assign y = _2_;
 endmodule
 ```
 
+![Screenshot from 2024-10-21 01-53-12](https://github.com/user-attachments/assets/9180fbe6-6180-4ce6-a4ce-ef6f094555c0)
 
-![Screenshot from 2024-10-20 00-18-44](https://github.com/user-attachments/assets/1358819b-aa3a-49df-ac14-772e20a18157)
+Yosys screenshot
 
-![Screenshot from 2024-10-20 00-19-44](https://github.com/user-attachments/assets/fcc9546e-1421-44ec-97a8-da41347f4e18)
+![Screenshot from 2024-10-21 01-47-16](https://github.com/user-attachments/assets/6175c1ba-594f-43b1-8d36-474f891ffd7e)
+![Screenshot from 2024-10-21 01-48-35](https://github.com/user-attachments/assets/07488850-0aa4-4d79-b7e0-ccc79f2676d7)
+![Screenshot from 2024-10-21 01-49-06](https://github.com/user-attachments/assets/9e13a965-1026-454f-8bf9-fb55962e0ee1)
+![Screenshot from 2024-10-21 01-54-08](https://github.com/user-attachments/assets/758e640c-138a-4498-bc30-4e5b970b4189)
 
-![Screenshot from 2024-10-20 10-56-11](https://github.com/user-attachments/assets/b8894646-2dd2-4218-b0ae-a6480900cc99)
+### Use of Module Level Synthesis: 
 
-![Screenshot from 2024-10-20 00-20-21](https://github.com/user-attachments/assets/66245a17-892a-4221-8c86-9ca2b96e7b12)
-
-![Screenshot from 2024-10-20 00-20-57](https://github.com/user-attachments/assets/4cefbd3b-1699-4b86-bb00-7202994a090b)
-
-![Screenshot from 2024-10-20 00-07-15](https://github.com/user-attachments/assets/bb638174-2d5a-4bc0-a7a6-217cc9232c18)
-<li>
-	Use of Module Level Synthesis: This method is preferred when multiple instances of same module are used. The synthesis is carried out once and is replicate multiple times, and the multiple instances of the same module are stitched together in the top module. This method is helpful when making use of divide and conquer algorithm
+This method is preferred when multiple instances of same module are used. The synthesis is carried out once and is replicate multiple times, and the multiple instances of the same module are stitched together in the top module. This method is helpful when making use of divide and conquer algorithm
 
  ```
 1. yosys
